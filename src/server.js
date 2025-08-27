@@ -1,13 +1,8 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { env } from "./config/environment.js";
 
 const app = express();
-
-const hostname = process.env.HOST || "localhost";
-const port = process.env.PORT || 8017;
 
 app.use(cors({ origin: "*" }));
 
@@ -15,8 +10,12 @@ app.use(cors({ origin: "*" }));
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// Lấy port và hostname từ env
+const port = env.APP_PORT || 8017;
+const hostname = env.APP_HOST || "localhost";
+
 app.listen(port, hostname, () => {
   // eslint-disable-next-line no-console
-  console.log(`http://${hostname}:${port}/`);
+  console.log(`Server running at http://${hostname}:${port}/`);
   console.log(`Server started successfully at ${new Date().toISOString()}`);
 });
